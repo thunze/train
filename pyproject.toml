@@ -1,13 +1,19 @@
 [tool.poetry]
 name = "train"
 version = "0.1.0"
-description = "Python project template"
+description = "A Python Sample Project"
 authors = ["Tom Hunze <github@thunze.de>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+pre-commit = "^2.17.0"
+
+[tool.poetry.scripts]
+app = "train.main:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
