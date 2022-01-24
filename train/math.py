@@ -1,4 +1,3 @@
-
 def add(a: int, b: int) -> int:
     """
     Adds two ints.
