@@ -1,5 +1,5 @@
 from train.main import main
 
 
-def test_main() -> None:
+def test_main():
     main()
