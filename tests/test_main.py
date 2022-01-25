@@ -1,4 +1,4 @@
-from train.main import main
+from train.__main__ import main
 
 
 def test_main():
