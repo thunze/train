@@ -2,15 +2,10 @@ name: tests
 
 on:
   push:
-    branches:
-      - 'dev'
-      - 'main'
     paths-ignore:
       - 'docs/**'
       - 'README.md'
   pull_request:
-    branches:
-      - '**'
     paths-ignore:
       - 'docs/**'
       - 'README.md'
@@ -58,15 +53,15 @@ jobs:
         run: poetry run pip install pytest-github-actions-annotate-failures
 
       - name: Run tests
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' || github.ref != 'refs/heads/dev'
         run: poetry run pytest
 
       - name: Run tests with coverage
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         run: poetry run pytest --cov
 
       - name: Upload coverage data to Coveralls
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         run: coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
