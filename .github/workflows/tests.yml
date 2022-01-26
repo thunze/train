@@ -1,4 +1,4 @@
-name: Tests
+name: tests
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        os: ['Windows', 'macOS', 'Ubuntu']
+        os: ['Ubuntu']
         include:
           - os: Windows
             image: windows-latest
@@ -52,16 +52,10 @@ jobs:
       - name: Install pytest annotation plugin
         run: poetry run pip install pytest-github-actions-annotate-failures
 
-      - name: Run tests
-        if: github.event_name != 'push' || github.ref != 'refs/heads/dev'
-        run: poetry run pytest
-
       - name: Run tests with coverage
-        if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         run: poetry run pytest --cov
 
       - name: Upload coverage data to Coveralls
-        if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
-        run: coveralls --service=github
+        run: poetry run coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
