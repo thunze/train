@@ -14,7 +14,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        os: ['Ubuntu']
+        os: ['Windows', 'macOS', 'Ubuntu']
         include:
           - os: Windows
             image: windows-latest
