@@ -2,6 +2,11 @@ name: tests
 
 on:
   workflow_dispatch:
+    inputs:
+      test:
+        description: 'Test input'
+        required: true
+        default: 'test'
 
 jobs:
   tests:
