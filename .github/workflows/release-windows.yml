@@ -1,7 +1,9 @@
 name: Release (Windows)
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - '**'
 
 jobs:
   release-windows:
