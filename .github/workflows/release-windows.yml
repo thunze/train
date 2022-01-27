@@ -2,11 +2,6 @@ name: Release (Windows)
 
 on:
   workflow_dispatch:
-    inputs:
-      test:
-        description: 'Test input'
-        required: true
-        default: 'test'
 
 jobs:
   release-windows:
