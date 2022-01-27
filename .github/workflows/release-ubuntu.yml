@@ -1,11 +1,15 @@
-name: Release (Windows)
+name: Release (Ubuntu)
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - '**'
 
 jobs:
-  release-windows:
-    runs-on: windows-latest
+  release-ubuntu:
+    # Always build on the oldest linux version we want to support
+    # See https://pyinstaller.readthedocs.io/en/stable/usage.html#making-gnu-linux-apps-forward-compatible
+    runs-on: ubuntu-18.04
     defaults:
       run:
         shell: bash
@@ -22,15 +26,18 @@ jobs:
         run: curl -sSL https://install.python-poetry.org | python -
 
       - name: Update PATH
-        run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Install production dependencies
         run: poetry install --no-dev
 
       - name: Install UPX
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install upx
+        run: sudo apt install -y upx
 
       - name: Bundle executable
-        run: poetry run pyinstaller -F --version-file bundle/win_version_file bundle/bundle.spec
+        run: poetry run pyinstaller -F bundle/bundle.spec
+
+      - name: Show directory content
+        run: |
+          cd dist
+          ls -l
