@@ -1,7 +1,7 @@
 name: Release (Windows)
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 jobs:
   release-windows:
