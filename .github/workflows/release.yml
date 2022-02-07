@@ -7,7 +7,7 @@ on:
 
 jobs:
   create_release:
-    name: "Create release"
+    name: Create release
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -18,7 +18,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-  build:
+  release:
     needs: create_release
     strategy:
       matrix:
@@ -36,7 +36,7 @@ jobs:
           - os: Ubuntu
             od_id: linux
             image: ubuntu-18.04
-    name: "Release: ${{ matrix.os }}"
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.image }}
     defaults:
       run:
@@ -110,7 +110,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: dist/train
           asset_name: train-${{ steps.version.outputs.version }}-${{ matrix.os_id }}
           asset_content_type: application/octet-stream
@@ -121,7 +121,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: dist/train.exe
           asset_name: train-${{ steps.version.outputs.version }}-${{ matrix.os_id }}.exe
           asset_content_type: application/octet-stream

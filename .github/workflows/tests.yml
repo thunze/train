@@ -15,7 +15,7 @@ jobs:
             image: macos-latest
           - os: Ubuntu
             image: ubuntu-latest
-    name: "Tests: ${{ matrix.os }}"
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.image }}
     defaults:
       run:
