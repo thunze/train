@@ -1,9 +1,7 @@
 name: Release (Ubuntu)
 
 on:
-  push:
-    branches:
-      - '**'
+  workflow_dispatch:
 
 jobs:
   release-ubuntu:
@@ -35,7 +33,7 @@ jobs:
         run: sudo apt-get install -y upx
 
       - name: Bundle executable
-        run: poetry run pyinstaller -D bundle/bundle.spec
+        run: poetry run pyinstaller -F bundle/bundle.spec
 
       - name: Show directory content
         run: |
