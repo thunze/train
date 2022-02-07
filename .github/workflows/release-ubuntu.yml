@@ -32,10 +32,10 @@ jobs:
         run: poetry install --no-dev
 
       - name: Install UPX
-        run: sudo apt install -y upx
+        run: sudo apt-get install -y upx
 
       - name: Bundle executable
-        run: poetry run pyinstaller -F bundle/bundle.spec
+        run: poetry run pyinstaller -D bundle/bundle.spec
 
       - name: Show directory content
         run: |
