@@ -1,13 +1,15 @@
-name: Release (Ubuntu)
+name: Release (macOS)
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - '**'
 
 jobs:
-  release-ubuntu:
-    # Always build on the oldest linux version we want to support
-    # See https://pyinstaller.readthedocs.io/en/stable/usage.html#making-gnu-linux-apps-forward-compatible
-    runs-on: ubuntu-18.04
+  release-macos:
+    # Always build on the oldest macOS version we want to support
+    # See https://pyinstaller.readthedocs.io/en/stable/usage.html#making-mac-os-x-apps-forward-compatible
+    runs-on: macos-10.15
     defaults:
       run:
         shell: bash
