@@ -96,14 +96,11 @@ jobs:
       # Bundle executable
 
       - name: Bundle executable
-        if: ${{ matrix.os != 'Windows' }}
-        run: |
-          poetry run pyinstaller -F bundle/bundle.spec
+        run: poetry run pyinstaller -F bundle/bundle.spec
 
-      - name: Bundle executable (Windows)
+      - name: Add version file (Windows)
         if: ${{ matrix.os == 'Windows' }}
-        run: |
-          poetry run pyinstaller -F --version-file bundle/win_version_file bundle/bundle.spec
+        run: poetry run pyi-set_version bundle/win_version_file dist/train.exe
 
       # Upload release asset
 

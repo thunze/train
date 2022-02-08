@@ -30,16 +30,13 @@ VSVersionInfo(
                 StringTable(
                     "040904b0",
                     [
-                        StringStruct("CompanyName", "Tom Hunze"),
-                        StringStruct("FileDescription", ""),
+                        StringStruct("FileDescription", "Train"),
                         StringStruct("FileVersion", "0.1.0"),
-                        StringStruct("InternalName", "Train"),
-                        StringStruct("LegalCopyright", "Copyright © 2022 Tom Hunze"),
-                        StringStruct("OriginalFilename", ""),
+                        StringStruct("InternalName", "train"),
+                        StringStruct("OriginalFilename", "train.exe"),
                         StringStruct("ProductName", "Train"),
                         StringStruct("ProductVersion", "0.1.0"),
                         StringStruct("SquirrelAwareVersion", "1"),
-                        StringStruct("", "")
                     ]
                 )
             ]
