@@ -31,11 +31,11 @@ VSVersionInfo(
                     "040904b0",
                     [
                         StringStruct("FileDescription", "Train"),
-                        StringStruct("FileVersion", "0.1.0"),
+                        StringStruct("FileVersion", "0.1.1"),
                         StringStruct("InternalName", "train"),
                         StringStruct("OriginalFilename", "train.exe"),
                         StringStruct("ProductName", "Train"),
-                        StringStruct("ProductVersion", "0.1.0"),
+                        StringStruct("ProductVersion", "0.1.1"),
                         StringStruct("SquirrelAwareVersion", "1"),
                     ]
                 )

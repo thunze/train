@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "train"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Python Sample Project"
 license = "MIT"
 authors = ["Tom Hunze <github@thunze.de>"]
