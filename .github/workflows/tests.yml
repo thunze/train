@@ -47,7 +47,7 @@ jobs:
         run: poetry run pip install pytest-github-actions-annotate-failures
 
       - name: Run tests with coverage
-        run: poetry run pytest --cov tests/
+        run: poetry run pytest --cov=train tests/
 
       - name: Upload coverage data to Coveralls
         run: poetry run coveralls --service=github
