@@ -37,7 +37,7 @@ jobs:
             os_id: macos
             image: macos-10.15
           - os: Ubuntu
-            od_id: linux
+            os_id: linux
             image: ubuntu-18.04
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.image }}
