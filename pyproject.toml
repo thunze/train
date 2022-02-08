@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "train"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Python Sample Project"
 license = "MIT"
 authors = ["Tom Hunze <github@thunze.de>"]
@@ -8,15 +8,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~3.10"
-pyinstaller = "^4.8"
+pyinstaller = "^4.9"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
+pytest = "^7.0.0"
 pytest-cov = "^3.0.0"
 coveralls = "^3.3.1"
 pre-commit = "^2.17.0"
 flake8 = "^4.0.1"
-black = "^21.12b0"
+black = "^22.1.0"
 mypy = "^0.931"
 isort = "^5.10.1"
 

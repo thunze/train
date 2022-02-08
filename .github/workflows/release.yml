@@ -1,0 +1,127 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Create release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+  release:
+    needs: create_release
+    strategy:
+      matrix:
+        os: ['Windows', 'macOS', 'Ubuntu']
+        include:
+          # Always build on the oldest macOS and Linux version we want to support
+          # See https://pyinstaller.readthedocs.io/en/stable/usage.html#making-mac-os-x-apps-forward-compatible
+          # See https://pyinstaller.readthedocs.io/en/stable/usage.html#making-gnu-linux-apps-forward-compatible
+          - os: Windows
+            os_id: win
+            image: windows-latest
+          - os: macOS
+            os_id: macos
+            image: macos-10.15
+          - os: Ubuntu
+            os_id: linux
+            image: ubuntu-18.04
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.image }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10.1'
+
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python -
+
+      # Update PATH
+
+      - name: Update PATH
+        if: ${{ matrix.os != 'Windows' }}
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Update PATH (Windows)
+        if: ${{ matrix.os == 'Windows' }}
+        run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
+
+      # Install production dependencies
+
+      - name: Install production dependencies
+        run: poetry install --no-dev
+
+      # Install UPX
+
+      - name: Install UPX (Windows)
+        if: ${{ matrix.os == 'Windows' }}
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install upx
+
+      - name: Install UPX (macOS)
+        if: ${{ matrix.os == 'macOS' }}
+        run: brew install upx
+
+      - name: Install UPX (Ubuntu)
+        if: ${{ matrix.os == 'Ubuntu' }}
+        run: sudo apt-get install -y upx
+
+      # Get version
+
+      - name: Get version
+        id: get_version
+        run: echo ::set-output name=version::$(poetry version --short)
+
+      # Bundle executable
+
+      - name: Bundle executable
+        run: poetry run pyinstaller -F bundle/bundle.spec
+
+      - name: Add version file (Windows)
+        if: ${{ matrix.os == 'Windows' }}
+        run: poetry run pyi-set_version bundle/win_version_file dist/train.exe
+
+      # Upload release asset
+
+      - name: Upload release asset
+        if: ${{ matrix.os != 'Windows' }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: dist/train
+          asset_name: train-${{ steps.get_version.outputs.version }}-${{ matrix.os_id }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload release asset
+        if: ${{ matrix.os == 'Windows' }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: dist/train.exe
+          asset_name: train-${{ steps.get_version.outputs.version }}-${{ matrix.os_id }}.exe
+          asset_content_type: application/octet-stream
